@@ -1,0 +1,1 @@
+"Lib\src\TIME.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\Lib\inc;.\Lib;.\User) DEBUG OBJECTEXTEND PRINT(.\Listings\TIME.lst) TABS (2) OBJECT(.\Objects\TIME.obj)

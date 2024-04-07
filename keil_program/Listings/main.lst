@@ -1,0 +1,81 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              04/03/2024 08:54:30 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\keil_c51\C51\BIN\C51.EXE User\main.c WARNINGLEVEL(0) OPTIMIZE(9,SPEED) BROWSE INCDIR(.\Lib\inc;.
+                    -\Lib;.\User) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "main.h"
+   2          
+   3          
+   4          void delay_5us(void)//一进一出，延迟5us时间
+   5          {
+   6   1              _nop_();
+   7   1      }
+   8          
+   9          
+  10          void delay_us(unsigned char us) //us级别延迟，最大输入255，us--1次用6.5us，进入1次函数�
+             -�要11.95us
+  11          {
+  12   1              while (us--);
+  13   1      }
+  14          
+  15          
+  16          void delay_ms(unsigned char ms)//设置毫秒级别延迟函数，ms最大输入255
+  17          {
+  18   1              unsigned char x;
+  19   1              for (ms; ms > 0; ms--)
+  20   1                      for (x = 114; x > 0; x--);
+  21   1      }
+  22          
+  23          
+  24          
+  25          //主函数
+  26          int main(void){
+  27   1                      
+  28   1                      uchar adc = 0;
+  29   1                      uint voltage = 0;
+  30   1                      uchar LED_buffer1[16] = {""};//ADC显示缓冲
+  31   1                      uchar LED_buffer2[16] = {""};//电压显示缓冲
+  32   1                      LCD_Init();//1602初始化
+  33   1                      
+  34   1                      while(1)
+  35   1                      {
+  36   2                              adc = ADC0832_Read(0);//读取adc值
+  37   2      //                      voltage = adc * 500.0 / 255;//将adc值换算成电压
+  38   2                              
+  39   2      //                      LED_buffer1[9] = adc / 100 + '0';               //取adc百位
+  40   2      //                      LED_buffer1[10] = adc % 100 / 10 + '0'; //取adc十位
+  41   2      //                      LED_buffer1[11] = adc % 10 + '0';               //取adc个位
+  42   2      //       
+  43   2      //                      LED_buffer2[9] = voltage / 100 + '0';           //取电压个位
+  44   2      //                      LED_buffer2[10] = '.';//小数点
+  45   2      //                      LED_buffer2[11] = voltage / 10 % 10 + '0';      //取电压十分位
+  46   2      //                      LED_buffer2[12] = voltage % 10 + '0';   //取电压百分位
+  47   2                              
+  48   2                              
+  49   2      //                      LCD_ShowString(1, 1, &LED_buffer1[0]);  //显示字符串
+  50   2                              LCD_ShowNum(2, 1, ADC0832_Read(0),3);   //显示字符串
+  51   2                      }
+  52   1      
+  53   1                      return 0;
+C51 COMPILER V9.60.7.0   MAIN                                                              04/03/2024 08:54:30 PAGE 2   
+
+  54   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     97    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      35
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

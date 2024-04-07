@@ -1,0 +1,8 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\IIC.obj",
+".\Objects\ADC0832.obj",
+".\Objects\LCD1602.obj" 
+TO ".\Objects\Example" 
+PRINT(".\Listings\Example.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 

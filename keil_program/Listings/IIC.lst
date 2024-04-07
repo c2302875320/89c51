@@ -1,0 +1,273 @@
+C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE IIC
+OBJECT MODULE PLACED IN .\Objects\IIC.obj
+COMPILER INVOKED BY: D:\keil_c51\C51\BIN\C51.EXE Lib\src\IIC.c WARNINGLEVEL(0) OPTIMIZE(9,SPEED) BROWSE INCDIR(.\Lib\inc
+                    -;.\Lib;.\User) DEBUG OBJECTEXTEND PRINT(.\Listings\IIC.lst) OBJECT(.\Objects\IIC.obj)
+
+line level    source
+
+   1          /*
+   2          硬件层
+   3          支持多主多从，400pF
+   4          仲裁方式
+   5          传输模式：100kbit/s 、400kbit/s 、3-4kbit/s
+   6          
+   7          
+   8          协议层
+   9          
+  10          1.数据有效性规定：SCL高电平时SDA必须稳定
+  11          2.起始信号：SCL为高，SDA由高电平变成低电平 
+  12          3.终止信号：SCL为高，SDA由低电平变成高电平
+  13          4.应答信号：从机 ACK信号，NACK信号
+  14          
+  15          
+  16          总线寻址
+  17          7位寻址  一位R/W
+  18          10位寻址
+  19          */
+  20          
+  21          //软件I2C
+  22          #include "IIC.h"
+  23          
+  24          /**
+  25             *@breaf       I2C起始信号
+  26             *@param      无
+  27             *@retval     无
+  28             
+  29             SCL:  ____|_
+  30                       | \
+  31                       |  \____
+  32             SDA:  ____|
+  33                       |\
+  34                       | \_____
+  35                        
+  36          */
+  37          void IIC_Start(void)
+  38          {
+  39   1          C51_IIC_SDA = 1;
+  40   1          C51_IIC_SCL = 1;
+  41   1          
+  42   1          _nop_();_nop_();
+  43   1          C51_IIC_SDA = 0;
+  44   1          
+  45   1          _nop_();_nop_();
+  46   1          C51_IIC_SCL = 0;
+  47   1      }
+  48          
+  49           /**
+  50             *@breaf       I2C结束信号
+  51             *@param      无
+  52             *@retval     无
+  53             
+  54             SCL:     _____
+C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 2   
+
+  55                     / 
+  56               ____ /
+  57             SDA:       ____
+  58                       /
+  59                  ____/ 
+  60                        
+  61          */
+  62          void IIC_Stop(void)
+  63          {
+  64   1          C51_IIC_SDA = 0;
+  65   1          C51_IIC_SCL = 1;
+  66   1          
+  67   1          _nop_();_nop_();
+  68   1          C51_IIC_SDA = 1;
+  69   1          _nop_();_nop_();
+  70   1          C51_IIC_SCL = 0;
+  71   1      }
+  72          
+  73          
+  74          void IIC_IDLE(void)
+  75          {
+  76   1          C51_IIC_SDA = 1;
+  77   1          C51_IIC_SCL = 1; 
+  78   1      }
+  79          
+  80          
+  81          
+  82          /**
+  83             *@breaf  I2C发送字节函数
+  84             *@param Byte要发送的字节内容
+  85             *@retval 无
+  86          SCL低电平期间，主机将数据位依次放在SDA线上（高位在前），
+  87          然后拉高SCL，从机将在SCL高位期间读取数据位，所以SCL高位期间不允许SDA数据发生变化，
+  88          依次进行循环8次，实现一个字节数据的传输。 
+  89             */
+  90          void  IIC_SendByte(u8 Byte)
+  91          {
+  92   1          u8 i;
+  93   1          
+  94   1          I2C_SCL=0;
+*** ERROR C202 IN LINE 94 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+  95   1          for(i=0;i<8;i++)
+  96   1          {
+  97   2              I2C_SDA = Byte&0x80;
+*** ERROR C202 IN LINE 97 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
+  98   2              I2C_SCL=1;
+*** ERROR C202 IN LINE 98 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+  99   2              _nop_();_nop_();
+ 100   2              I2C_SCL=0;
+*** ERROR C202 IN LINE 100 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+ 101   2              _nop_();_nop_();
+ 102   2              
+ 103   2              Byte=Byte<<1;
+ 104   2          }
+ 105   1      }
+ 106          
+ 107          
+ 108          /**
+ 109          *@breaf  I2C接收字节函数
+ 110          *@param 无
+ 111          *@retval Byte接收来自外设的数据
+ 112          SCL低电平期间，从机将数据位依次放在SDA线上，（高位在前），
+C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 3   
+
+ 113          然后拉高SCL，主机将在SCL高电平期间读取数据，所以SCL高电平期间，不允许SDA数据发生变化，
+ 114          依次循环8次，即可接受接收一个字节（主机在前接受前，需要释放(SDA）。
+ 115          */
+ 116          
+ 117          
+ 118          u8 IIC_ReceiveByte()
+ 119          {
+ 120   1          u8 Byte=0,i;
+ 121   1          
+ 122   1          I2C_SDA = 1;//释放SDA
+*** ERROR C202 IN LINE 122 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
+ 123   1          I2C_SCL = 0;
+*** ERROR C202 IN LINE 123 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+ 124   1          for(i=0;i<8;i++)
+ 125   1          {
+ 126   2      
+ 127   2              I2C_SCL=1;//
+*** ERROR C202 IN LINE 127 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+ 128   2              _nop_();_nop_();
+ 129   2              
+ 130   2              Byte=Byte<<1|I2C_SDA
+ 131   2              
+ 132   2              I2C_SCL=0;
+*** ERROR C202 IN LINE 132 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
+*** ERROR C141 IN LINE 132 OF Lib\src\IIC.c: syntax error near 'I2C_SCL', expected ';'
+ 133   2              _nop_();_nop_();
+ 134   2           }
+ 135   1          
+ 136   1           return Byte;
+ 137   1      }
+ 138          
+ 139          
+ 140          
+ 141          /**
+ 142          *@breaf I2C发送应答
+ 143          *@param AckBit 应答位，0为应答，1为非应答
+ 144          *@retval 无
+ 145          */
+ 146          void IIC_SendAck(U8 AckBit)
+*** ERROR C141 IN LINE 146 OF Lib\src\IIC.c: syntax error near 'AckBit', expected ')'
+ 147          {
+ 148   1              I2C_SDA=AckBit;
+*** ERROR C202 IN LINE 148 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
+ 149   1              
+ 150   1              I2C_SCL=1;
+*** ERROR C202 IN LINE 150 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+ 151   1              _nop_();_nop_();
+ 152   1              I2C_SCL=0;
+*** ERROR C202 IN LINE 152 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+ 153   1              _nop_();_nop_();
+ 154   1      }
+ 155          
+ 156          
+ 157          /**
+ 158          *@breaf I2C接收应答
+ 159          *@param无
+ 160          *@retval AckBit  应答位，0为应答，1为非应答
+ 161          */
+ 162          u8 IIC_ReceiveAck()
+ 163          {
+ 164   1              u8 AckBit;
+ 165   1          
+C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 4   
+
+ 166   1              I2C_SDA=1;
+*** ERROR C202 IN LINE 166 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
+ 167   1              I2C_SCL=0;
+*** ERROR C202 IN LINE 167 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+ 168   1          
+ 169   1              I2C_SCL=1;
+*** ERROR C202 IN LINE 169 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+ 170   1              _nop_();_nop_();
+ 171   1              AckBit=I2C_SDA;
+*** ERROR C202 IN LINE 171 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
+ 172   1              I2C_SCL=0;
+*** ERROR C202 IN LINE 172 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
+ 173   1              _nop_();_nop_();
+ 174   1          
+ 175   1              return AckBit;
+ 176   1      }
+ 177          
+ 178          /**
+ 179          *@breaf I2C写数据流程
+ 180          *@param无
+ 181          *@retval 
+ 182          */
+ 183          void IIC_Write(u8 IC_ADDR,u8 ADDR,u8 Byte)       //写数据函数
+ 184          {
+ 185   1          IIC_Start();
+ 186   1           
+ 187   1          IIC_SendByte(IC_ADDR);              //单片机寻找芯片
+ 188   1          IIC_ReceiveAck();           //检查应答信号
+ 189   1           
+ 190   1          IIC_SendByte(ADDR);         //确定器件存储位地址
+ 191   1          IIC_ReceiveAck();
+ 192   1           
+ 193   1          IIC_SendByte(num);          //写数据
+*** ERROR C202 IN LINE 193 OF Lib\src\IIC.c: 'num': undefined identifier
+ 194   1          IIC_ReceiveAck();
+ 195   1           
+ 196   1          IIC_Stop();
+ 197   1           
+ 198   1          delay_ms(10);
+ 199   1      }
+ 200           
+ 201          
+ 202          
+ 203          /**
+ 204             *@breaf I2C写数据流程
+ 205             *@param WordAddress读取字节的地址
+ 206             *@retval Byte读取字节的内容
+ 207             */
+ 208          u8  IIC_Read(u8 IC_ADDR,u8 ADDR)
+ 209          {
+ 210   1          u8 Byte;
+ 211   1              
+ 212   1          IIC_Start();
+ 213   1          
+ 214   1          IIC_SendByte(IC_ADDR);
+ 215   1          IIC_ReceiveAck();   
+ 216   1          
+ 217   1          IIC_SendByte(ADDR);
+ 218   1          IIC_ReceiveAck();
+ 219   1          
+ 220   1          IIC_Start();
+ 221   1          IIC_SendByte(AT24C02_ADDRESS|0x01);
+C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 5   
+
+*** ERROR C202 IN LINE 221 OF Lib\src\IIC.c: 'AT24C02_ADDRESS': undefined identifier
+ 222   1          
+ 223   1          IIC_ReceiveAck();   
+ 224   1          Byte= I2C_ReceiveByte();
+ 225   1          IIC_SendAck(1);
+ 226   1          
+ 227   1          IIC_Stop();
+ 228   1      
+ 229   1          return Byte;
+ 230   1      }
+ 231           
+ 232          
+ 233          
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  20 ERROR(S)

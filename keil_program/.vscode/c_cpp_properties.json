@@ -1,0 +1,76 @@
+{
+    "configurations": [
+        {
+            "name": "Text",
+            "includePath": [
+                "d:\\挣钱养家\\最小系统\\C51\\Lib\\inc",
+                "d:\\挣钱养家\\最小系统\\C51\\Lib",
+                "d:\\挣钱养家\\最小系统\\C51\\User",
+                "D:\\keil_c51\\C51\\INC",
+                "d:\\挣钱养家\\最小系统\\C51"
+            ],
+            "defines": [
+                "__C51__",
+                "__VSCODE_C51__",
+                "reentrant=",
+                "compact=",
+                "small=",
+                "large=",
+                "data=",
+                "idata=",
+                "pdata=",
+                "bdata=",
+                "xdata=",
+                "code=",
+                "bit=char",
+                "sbit=char",
+                "sfr=char",
+                "sfr16=int",
+                "sfr32=int",
+                "interrupt=",
+                "using=",
+                "_at_=",
+                "_priority_=",
+                "_task_="
+            ],
+            "intelliSenseMode": "${default}"
+        },
+        {
+            "name": "Project",
+            "includePath": [
+                "d:\\挣钱养家\\最小系统\\C51\\Lib\\inc",
+                "d:\\挣钱养家\\最小系统\\C51\\Lib",
+                "d:\\挣钱养家\\最小系统\\C51\\User",
+                "D:\\keil_c51\\C51\\INC",
+                "d:\\挣钱养家\\最小系统\\C51",
+                "d:\\挣钱养家\\最小系统\\C51\\Lib\\src"
+            ],
+            "defines": [
+                "__C51__",
+                "__VSCODE_C51__",
+                "reentrant=",
+                "compact=",
+                "small=",
+                "large=",
+                "data=",
+                "idata=",
+                "pdata=",
+                "bdata=",
+                "xdata=",
+                "code=",
+                "bit=char",
+                "sbit=char",
+                "sfr=char",
+                "sfr16=int",
+                "sfr32=int",
+                "interrupt=",
+                "using=",
+                "_at_=",
+                "_priority_=",
+                "_task_="
+            ],
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}
