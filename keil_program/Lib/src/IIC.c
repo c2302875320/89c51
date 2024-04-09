@@ -111,7 +111,7 @@ SCL低电平期间，主机将数据位依次放在SDA线上（高位在前），
 然后拉高SCL，从机将在SCL高位期间读取数据位，所以SCL高位期间不允许SDA数据发生变化，
 依次进行循环8次，实现一个字节数据的传输。 
    */
-void  IIC_SendByte(u8 Byte)
+void IIC_SendByte(u8 Byte)
 {
     u8 i;
     
@@ -151,7 +151,7 @@ u8 IIC_ReceiveByte()
         C51_IIC_SCL=1;//
         _nop_();_nop_();
         
-        Byte=Byte<<1|C51_IIC_SDA
+        Byte=Byte<<1|C51_IIC_SDA;
         
         C51_IIC_SCL=0;
         _nop_();_nop_();
@@ -167,7 +167,7 @@ u8 IIC_ReceiveByte()
 *@param AckBit 应答位，0为应答，1为非应答
 *@retval 无
 */
-void IIC_SendAck(U8 AckBit)
+void IIC_SendAck(u8 AckBit)
 {
         C51_IIC_SDA=AckBit;
 	

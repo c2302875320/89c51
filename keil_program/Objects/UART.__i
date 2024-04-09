@@ -1,0 +1,1 @@
+"Lib\src\UART.c" WARNINGLEVEL (0) OPTIMIZE (9,SPEED) BROWSE INCDIR(.\Lib\inc;.\Lib;.\User) DEBUG OBJECTEXTEND PRINT(.\Listings\UART.lst) OBJECT(.\Objects\UART.obj)

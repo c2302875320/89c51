@@ -1,0 +1,1 @@
+"Lib\src\TIMER.c" WARNINGLEVEL (0) OPTIMIZE (9,SPEED) BROWSE INCDIR(.\Lib\inc;.\Lib;.\User) DEBUG OBJECTEXTEND PRINT(.\Listings\TIMER.lst) OBJECT(.\Objects\TIMER.obj)

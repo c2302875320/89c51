@@ -1,0 +1,1 @@
+"Lib\src\24C02.c" WARNINGLEVEL (0) OPTIMIZE (9,SPEED) BROWSE INCDIR(.\Lib\inc;.\Lib;.\User) DEBUG OBJECTEXTEND PRINT(.\Listings\24C02.lst) OBJECT(.\Objects\24C02.obj)

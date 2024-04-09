@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 1   
+C51 COMPILER V9.60.7.0   IIC                                                               04/10/2024 01:39:04 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE IIC
@@ -26,248 +26,215 @@ line level    source
   16          ×ÜÏßÑ°Ö·
   17          7Î»Ñ°Ö·  Ò»Î»R/W
   18          10Î»Ñ°Ö·
-  19          */
-  20          
-  21          //Èí¼þI2C
-  22          #include "IIC.h"
-  23          
-  24          /**
-  25             *@breaf       I2CÆðÊ¼ÐÅºÅ
-  26             *@param      ÎÞ
-  27             *@retval     ÎÞ
-  28             
-  29             SCL:  ____|_
-  30                       | \
-  31                       |  \____
-  32             SDA:  ____|
-  33                       |\
-  34                       | \_____
-  35                        
-  36          */
-  37          void IIC_Start(void)
-  38          {
-  39   1          C51_IIC_SDA = 1;
-  40   1          C51_IIC_SCL = 1;
-  41   1          
-  42   1          _nop_();_nop_();
-  43   1          C51_IIC_SDA = 0;
-  44   1          
-  45   1          _nop_();_nop_();
-  46   1          C51_IIC_SCL = 0;
-  47   1      }
-  48          
-  49           /**
-  50             *@breaf       I2C½áÊøÐÅºÅ
-  51             *@param      ÎÞ
-  52             *@retval     ÎÞ
-  53             
-  54             SCL:     _____
-C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 2   
+  19          
+  20          Ö÷»úÏò´Ó»úÐ´Êý¾Ý£º
+  21          
+  22          1.Ö÷»úÊ×ÏÈ²úÉúSTARTÐÅºÅ
+  23          2.È»ºó½ô¸ú×Å·¢ËÍÒ»¸ö´Ó»úµØÖ·£¬Õâ¸öµØÖ·¹²ÓÐ7Î»£¬½ô½Ó×ÅµÄµÚ8Î»ÊÇÊý¾Ý·½ ÏòÎ»(R/W)£¬0±íÊ¾Ö÷»ú·¢ËÍÊý¾Ý(Ð´)£¬1±í
+             -Ê¾Ö÷»ú½ÓÊÕÊý¾Ý(¶Á)
+  24          3.Ö÷»ú·¢ËÍµØÖ·Ê±£¬×ÜÏßÉÏµÄÃ¿¸ö´Ó»ú¶¼½«Õâ7Î»µØÖ·ÂëÓë×Ô¼ºµÄµØÖ·½øÐÐ±È½Ï£¬ÈôÏàÍ¬£¬ÔòÈÏÎª×Ô¼ºÕýÔÚ±»Ö÷»úÑ°Ö·£¬¸
+             -ù¾ÝR/TÎ»½«×Ô¼ºÈ·¶¨Îª·¢ËÍÆ÷ºÍ½ÓÊÕÆ÷
+  25          4.ÕâÊ±ºòÖ÷»úµÈ´ý´Ó»úµÄÓ¦´ðÐÅºÅ(A)
+  26          5.µ±Ö÷»úÊÕµ½Ó¦´ðÐÅºÅÊ±£¬·¢ËÍÒª·ÃÎÊ´Ó»úµÄÄÇ¸öµØÖ·£¬ ¼ÌÐøµÈ´ý´Ó»úµÄÓ¦´ðÐÅºÅ
+  27          6.µ±Ö÷»úÊÕµ½Ó¦´ðÐÅºÅÊ±£¬·¢ËÍN¸ö×Ö½ÚµÄÊý¾Ý£¬¼ÌÐøµÈ´ý´Ó»úµÄN´ÎÓ¦´ðÐÅºÅ£¬
+  28          7.Ö÷»ú²úÉúÍ£Ö¹ÐÅºÅ£¬½áÊø´«ËÍ¹ý³Ì¡£
+  29          
+  30          
+  31          Ö÷»úÒª´Ó´Ó»ú¶ÁÊý¾ÝÊ±
+  32          1.Ö÷»úÊ×ÏÈ²úÉúSTARTÐÅºÅ
+  33          2.È»ºó½ô¸ú×Å·¢ËÍÒ»¸ö´Ó»úµØÖ·£¬×¢Òâ´ËÊ±¸ÃµØÖ·µÄµÚ8Î»Îª0£¬±íÃ÷ÊÇÏò´Ó»úÐ´ÃüÁî£¬
+  34          3.ÕâÊ±ºòÖ÷»úµÈ´ý´Ó»úµÄÓ¦´ðÐÅºÅ(ACK)
+  35          4.µ±Ö÷»úÊÕµ½Ó¦´ðÐÅºÅÊ±£¬·¢ËÍÒª·ÃÎÊµÄµØÖ·£¬¼ÌÐøµÈ´ý´Ó»úµÄÓ¦´ðÐÅºÅ£¬
+  36          5.µ±Ö÷»úÊÕµ½Ó¦´ðÐÅºÅºó£¬Ö÷»úÒª¸Ä±äÍ¨ÐÅÄ£Ê½(Ö÷»ú½«ÓÉ·¢ËÍ±äÎª½ÓÊÕ£¬´Ó»ú½«ÓÉ½ÓÊÕ±äÎª·¢ËÍ)ËùÒÔÖ÷»úÖØÐÂ·¢ËÍÒ»¸ö
+             -¿ªÊ¼startÐÅºÅ£¬È»ºó½ô¸ú×Å·¢ËÍÒ»¸ö´Ó»úµØÖ·£¬×¢Òâ´ËÊ±¸ÃµØÖ·µÄµÚ8Î»Îª1£¬±íÃ÷½«Ö÷»úÉè ÖÃ³É½ÓÊÕÄ£Ê½¿ªÊ¼¶ÁÈ¡Êý¾Ý£¬
+  37          6.ÕâÊ±ºòÖ÷»úµÈ´ý´Ó»úµÄÓ¦´ðÐÅºÅ£¬µ±Ö÷»úÊÕµ½Ó¦´ðÐÅºÅÊ±£¬¾Í¿ÉÒÔ½ÓÊÕ1¸ö×Ö½ÚµÄÊý¾Ý£¬µ±½ÓÊÕÍê³Éºó£¬Ö÷»ú·¢ËÍ·ÇÓ¦´
+             -ðÐÅºÅ£¬±íÊ¾²»ÔÚ½ÓÊÕÊý¾Ý
+  38          7.Ö÷»ú½ø¶ø²úÉúÍ£Ö¹ÐÅºÅ£¬½áÊø´«ËÍ¹ý³Ì¡£
+  39          
+  40          
+  41          
+  42          
+  43          */
+  44          
+  45          //Èí¼þI2C
+  46          #include "IIC.h"
+  47          
+  48          /**
+  49             *@breaf       I2CÆðÊ¼ÐÅºÅ
+  50             *@param      ÎÞ
+C51 COMPILER V9.60.7.0   IIC                                                               04/10/2024 01:39:04 PAGE 2   
 
-  55                     / 
-  56               ____ /
-  57             SDA:       ____
-  58                       /
-  59                  ____/ 
-  60                        
-  61          */
-  62          void IIC_Stop(void)
-  63          {
-  64   1          C51_IIC_SDA = 0;
-  65   1          C51_IIC_SCL = 1;
-  66   1          
-  67   1          _nop_();_nop_();
-  68   1          C51_IIC_SDA = 1;
+  51             *@retval     ÎÞ
+  52             
+  53             SCL:  ____|_
+  54                       | \
+  55                       |  \____
+  56             SDA:  ____|
+  57                       |\
+  58                       | \_____
+  59                        
+  60          */
+  61          void IIC_Start(void)
+  62          {
+  63   1          C51_IIC_SDA = 1;
+  64   1          C51_IIC_SCL = 1;
+  65   1          
+  66   1          _nop_();_nop_();
+  67   1          C51_IIC_SDA = 0;
+  68   1          
   69   1          _nop_();_nop_();
   70   1          C51_IIC_SCL = 0;
   71   1      }
   72          
-  73          
-  74          void IIC_IDLE(void)
-  75          {
-  76   1          C51_IIC_SDA = 1;
-  77   1          C51_IIC_SCL = 1; 
-  78   1      }
-  79          
-  80          
-  81          
-  82          /**
-  83             *@breaf  I2C·¢ËÍ×Ö½Úº¯Êý
-  84             *@param ByteÒª·¢ËÍµÄ×Ö½ÚÄÚÈÝ
-  85             *@retval ÎÞ
-  86          SCLµÍµçÆ½ÆÚ¼ä£¬Ö÷»ú½«Êý¾ÝÎ»ÒÀ´Î·ÅÔÚSDAÏßÉÏ£¨¸ßÎ»ÔÚÇ°£©£¬
-  87          È»ºóÀ­¸ßSCL£¬´Ó»ú½«ÔÚSCL¸ßÎ»ÆÚ¼ä¶ÁÈ¡Êý¾ÝÎ»£¬ËùÒÔSCL¸ßÎ»ÆÚ¼ä²»ÔÊÐíSDAÊý¾Ý·¢Éú±ä»¯£¬
-  88          ÒÀ´Î½øÐÐÑ­»·8´Î£¬ÊµÏÖÒ»¸ö×Ö½ÚÊý¾ÝµÄ´«Êä¡£ 
-  89             */
-  90          void  IIC_SendByte(u8 Byte)
-  91          {
-  92   1          u8 i;
-  93   1          
-  94   1          I2C_SCL=0;
-*** ERROR C202 IN LINE 94 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
-  95   1          for(i=0;i<8;i++)
-  96   1          {
-  97   2              I2C_SDA = Byte&0x80;
-*** ERROR C202 IN LINE 97 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
-  98   2              I2C_SCL=1;
-*** ERROR C202 IN LINE 98 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
-  99   2              _nop_();_nop_();
- 100   2              I2C_SCL=0;
-*** ERROR C202 IN LINE 100 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
- 101   2              _nop_();_nop_();
- 102   2              
- 103   2              Byte=Byte<<1;
- 104   2          }
- 105   1      }
- 106          
- 107          
- 108          /**
- 109          *@breaf  I2C½ÓÊÕ×Ö½Úº¯Êý
- 110          *@param ÎÞ
- 111          *@retval Byte½ÓÊÕÀ´×ÔÍâÉèµÄÊý¾Ý
- 112          SCLµÍµçÆ½ÆÚ¼ä£¬´Ó»ú½«Êý¾ÝÎ»ÒÀ´Î·ÅÔÚSDAÏßÉÏ£¬£¨¸ßÎ»ÔÚÇ°£©£¬
-C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 3   
+  73           /**
+  74             *@breaf       I2C½áÊøÐÅºÅ
+  75             *@param      ÎÞ
+  76             *@retval     ÎÞ
+  77             
+  78             SCL:     _____
+  79                     / 
+  80               ____ /
+  81             SDA:       ____
+  82                       /
+  83                  ____/ 
+  84                        
+  85          */
+  86          void IIC_Stop(void)
+  87          {
+  88   1          C51_IIC_SDA = 0;
+  89   1          C51_IIC_SCL = 1;
+  90   1          
+  91   1          _nop_();_nop_();
+  92   1          C51_IIC_SDA = 1;
+  93   1          _nop_();_nop_();
+  94   1          C51_IIC_SCL = 0;
+  95   1      }
+  96          
+  97          
+  98          void IIC_IDLE(void)
+  99          {
+ 100   1          C51_IIC_SDA = 1;
+ 101   1          C51_IIC_SCL = 1; 
+ 102   1      }
+ 103          
+ 104          
+ 105          
+ 106          /**
+ 107             *@breaf  I2C·¢ËÍ×Ö½Úº¯Êý
+ 108             *@param ByteÒª·¢ËÍµÄ×Ö½ÚÄÚÈÝ
+ 109             *@retval ÎÞ
+ 110          SCLµÍµçÆ½ÆÚ¼ä£¬Ö÷»ú½«Êý¾ÝÎ»ÒÀ´Î·ÅÔÚSDAÏßÉÏ£¨¸ßÎ»ÔÚÇ°£©£¬
+ 111          È»ºóÀ­¸ßSCL£¬´Ó»ú½«ÔÚSCL¸ßÎ»ÆÚ¼ä¶ÁÈ¡Êý¾ÝÎ»£¬ËùÒÔSCL¸ßÎ»ÆÚ¼ä²»ÔÊÐíSDAÊý¾Ý·¢Éú±ä»¯£¬
+ 112          ÒÀ´Î½øÐÐÑ­»·8´Î£¬ÊµÏÖÒ»¸ö×Ö½ÚÊý¾ÝµÄ´«Êä¡£ 
+C51 COMPILER V9.60.7.0   IIC                                                               04/10/2024 01:39:04 PAGE 3   
 
- 113          È»ºóÀ­¸ßSCL£¬Ö÷»ú½«ÔÚSCL¸ßµçÆ½ÆÚ¼ä¶ÁÈ¡Êý¾Ý£¬ËùÒÔSCL¸ßµçÆ½ÆÚ¼ä£¬²»ÔÊÐíSDAÊý¾Ý·¢Éú±ä»¯£¬
- 114          ÒÀ´ÎÑ­»·8´Î£¬¼´¿É½ÓÊÜ½ÓÊÕÒ»¸ö×Ö½Ú£¨Ö÷»úÔÚÇ°½ÓÊÜÇ°£¬ÐèÒªÊÍ·Å(SDA£©¡£
- 115          */
- 116          
- 117          
- 118          u8 IIC_ReceiveByte()
- 119          {
- 120   1          u8 Byte=0,i;
- 121   1          
- 122   1          I2C_SDA = 1;//ÊÍ·ÅSDA
-*** ERROR C202 IN LINE 122 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
- 123   1          I2C_SCL = 0;
-*** ERROR C202 IN LINE 123 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
- 124   1          for(i=0;i<8;i++)
- 125   1          {
- 126   2      
- 127   2              I2C_SCL=1;//
-*** ERROR C202 IN LINE 127 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
- 128   2              _nop_();_nop_();
- 129   2              
- 130   2              Byte=Byte<<1|I2C_SDA
- 131   2              
- 132   2              I2C_SCL=0;
-*** ERROR C202 IN LINE 132 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
-*** ERROR C141 IN LINE 132 OF Lib\src\IIC.c: syntax error near 'I2C_SCL', expected ';'
- 133   2              _nop_();_nop_();
- 134   2           }
- 135   1          
- 136   1           return Byte;
- 137   1      }
- 138          
- 139          
+ 113             */
+ 114          void IIC_SendByte(u8 Byte)
+ 115          {
+ 116   1          u8 i;
+ 117   1          
+ 118   1          C51_IIC_SCL=0;
+ 119   1          for(i=0;i<8;i++)
+ 120   1          {
+ 121   2              C51_IIC_SDA = Byte&0x80;
+ 122   2              C51_IIC_SCL=1;
+ 123   2              _nop_();_nop_();
+ 124   2              C51_IIC_SCL=0;
+ 125   2              _nop_();_nop_();
+ 126   2              
+ 127   2              Byte=Byte<<1;
+ 128   2          }
+ 129   1      }
+ 130          
+ 131          
+ 132          /**
+ 133          *@breaf  I2C½ÓÊÕ×Ö½Úº¯Êý
+ 134          *@param ÎÞ
+ 135          *@retval Byte½ÓÊÕÀ´×ÔÍâÉèµÄÊý¾Ý
+ 136          SCLµÍµçÆ½ÆÚ¼ä£¬´Ó»ú½«Êý¾ÝÎ»ÒÀ´Î·ÅÔÚSDAÏßÉÏ£¬£¨¸ßÎ»ÔÚÇ°£©£¬
+ 137          È»ºóÀ­¸ßSCL£¬Ö÷»ú½«ÔÚSCL¸ßµçÆ½ÆÚ¼ä¶ÁÈ¡Êý¾Ý£¬ËùÒÔSCL¸ßµçÆ½ÆÚ¼ä£¬²»ÔÊÐíSDAÊý¾Ý·¢Éú±ä»¯£¬
+ 138          ÒÀ´ÎÑ­»·8´Î£¬¼´¿É½ÓÊÜ½ÓÊÕÒ»¸ö×Ö½Ú£¨Ö÷»úÔÚÇ°½ÓÊÜÇ°£¬ÐèÒªÊÍ·Å(SDA£©¡£
+ 139          */
  140          
- 141          /**
- 142          *@breaf I2C·¢ËÍÓ¦´ð
- 143          *@param AckBit Ó¦´ðÎ»£¬0ÎªÓ¦´ð£¬1Îª·ÇÓ¦´ð
- 144          *@retval ÎÞ
- 145          */
- 146          void IIC_SendAck(U8 AckBit)
-*** ERROR C141 IN LINE 146 OF Lib\src\IIC.c: syntax error near 'AckBit', expected ')'
- 147          {
- 148   1              I2C_SDA=AckBit;
-*** ERROR C202 IN LINE 148 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
- 149   1              
- 150   1              I2C_SCL=1;
-*** ERROR C202 IN LINE 150 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
- 151   1              _nop_();_nop_();
- 152   1              I2C_SCL=0;
-*** ERROR C202 IN LINE 152 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
- 153   1              _nop_();_nop_();
- 154   1      }
- 155          
- 156          
- 157          /**
- 158          *@breaf I2C½ÓÊÕÓ¦´ð
- 159          *@paramÎÞ
- 160          *@retval AckBit  Ó¦´ðÎ»£¬0ÎªÓ¦´ð£¬1Îª·ÇÓ¦´ð
- 161          */
- 162          u8 IIC_ReceiveAck()
- 163          {
- 164   1              u8 AckBit;
- 165   1          
-C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 4   
+ 141          
+ 142          u8 IIC_ReceiveByte()
+ 143          {
+ 144   1          u8 Byte=0,i;
+ 145   1          
+ 146   1          C51_IIC_SDA = 1;//ÊÍ·ÅSDA
+ 147   1          C51_IIC_SCL = 0;
+ 148   1          for(i=0;i<8;i++)
+ 149   1          {
+ 150   2      
+ 151   2              C51_IIC_SCL=1;//
+ 152   2              _nop_();_nop_();
+ 153   2              
+ 154   2              Byte=Byte<<1|C51_IIC_SDA;
+ 155   2              
+ 156   2              C51_IIC_SCL=0;
+ 157   2              _nop_();_nop_();
+ 158   2           }
+ 159   1          
+ 160   1           return Byte;
+ 161   1      }
+ 162          
+ 163          
+ 164          
+ 165          /**
+ 166          *@breaf I2C·¢ËÍÓ¦´ð
+ 167          *@param AckBit Ó¦´ðÎ»£¬0ÎªÓ¦´ð£¬1Îª·ÇÓ¦´ð
+ 168          *@retval ÎÞ
+ 169          */
+ 170          void IIC_SendAck(u8 AckBit)
+ 171          {
+ 172   1              C51_IIC_SDA=AckBit;
+ 173   1              
+ 174   1              C51_IIC_SCL=1;
+C51 COMPILER V9.60.7.0   IIC                                                               04/10/2024 01:39:04 PAGE 4   
 
- 166   1              I2C_SDA=1;
-*** ERROR C202 IN LINE 166 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
- 167   1              I2C_SCL=0;
-*** ERROR C202 IN LINE 167 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
- 168   1          
- 169   1              I2C_SCL=1;
-*** ERROR C202 IN LINE 169 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
- 170   1              _nop_();_nop_();
- 171   1              AckBit=I2C_SDA;
-*** ERROR C202 IN LINE 171 OF Lib\src\IIC.c: 'I2C_SDA': undefined identifier
- 172   1              I2C_SCL=0;
-*** ERROR C202 IN LINE 172 OF Lib\src\IIC.c: 'I2C_SCL': undefined identifier
- 173   1              _nop_();_nop_();
- 174   1          
- 175   1              return AckBit;
- 176   1      }
- 177          
- 178          /**
- 179          *@breaf I2CÐ´Êý¾ÝÁ÷³Ì
- 180          *@paramÎÞ
- 181          *@retval 
- 182          */
- 183          void IIC_Write(u8 IC_ADDR,u8 ADDR,u8 Byte)       //Ð´Êý¾Ýº¯Êý
- 184          {
- 185   1          IIC_Start();
- 186   1           
- 187   1          IIC_SendByte(IC_ADDR);              //µ¥Æ¬»úÑ°ÕÒÐ¾Æ¬
- 188   1          IIC_ReceiveAck();           //¼ì²éÓ¦´ðÐÅºÅ
- 189   1           
- 190   1          IIC_SendByte(ADDR);         //È·¶¨Æ÷¼þ´æ´¢Î»µØÖ·
- 191   1          IIC_ReceiveAck();
- 192   1           
- 193   1          IIC_SendByte(num);          //Ð´Êý¾Ý
-*** ERROR C202 IN LINE 193 OF Lib\src\IIC.c: 'num': undefined identifier
- 194   1          IIC_ReceiveAck();
- 195   1           
- 196   1          IIC_Stop();
- 197   1           
- 198   1          delay_ms(10);
- 199   1      }
- 200           
+ 175   1              _nop_();_nop_();
+ 176   1              C51_IIC_SCL=0;
+ 177   1              _nop_();_nop_();
+ 178   1      }
+ 179          
+ 180          
+ 181          /**
+ 182          *@breaf I2C½ÓÊÕÓ¦´ð
+ 183          *@paramÎÞ
+ 184          *@retval AckBit  Ó¦´ðÎ»£¬0ÎªÓ¦´ð£¬1Îª·ÇÓ¦´ð
+ 185          */
+ 186          u8 IIC_ReceiveAck()
+ 187          {
+ 188   1              u8 AckBit;
+ 189   1          
+ 190   1              C51_IIC_SDA=1;
+ 191   1              C51_IIC_SCL=0;
+ 192   1          
+ 193   1              C51_IIC_SCL=1;
+ 194   1              _nop_();_nop_();
+ 195   1              AckBit=C51_IIC_SDA;
+ 196   1              C51_IIC_SCL=0;
+ 197   1              _nop_();_nop_();
+ 198   1          
+ 199   1              return AckBit;
+ 200   1      }
  201          
  202          
- 203          /**
- 204             *@breaf I2CÐ´Êý¾ÝÁ÷³Ì
- 205             *@param WordAddress¶ÁÈ¡×Ö½ÚµÄµØÖ·
- 206             *@retval Byte¶ÁÈ¡×Ö½ÚµÄÄÚÈÝ
- 207             */
- 208          u8  IIC_Read(u8 IC_ADDR,u8 ADDR)
- 209          {
- 210   1          u8 Byte;
- 211   1              
- 212   1          IIC_Start();
- 213   1          
- 214   1          IIC_SendByte(IC_ADDR);
- 215   1          IIC_ReceiveAck();   
- 216   1          
- 217   1          IIC_SendByte(ADDR);
- 218   1          IIC_ReceiveAck();
- 219   1          
- 220   1          IIC_Start();
- 221   1          IIC_SendByte(AT24C02_ADDRESS|0x01);
-C51 COMPILER V9.60.7.0   IIC                                                               04/03/2024 17:09:09 PAGE 5   
+ 203          
+ 204           
+ 205          
+ 206          
 
-*** ERROR C202 IN LINE 221 OF Lib\src\IIC.c: 'AT24C02_ADDRESS': undefined identifier
- 222   1          
- 223   1          IIC_ReceiveAck();   
- 224   1          Byte= I2C_ReceiveByte();
- 225   1          IIC_SendAck(1);
- 226   1          
- 227   1          IIC_Stop();
- 228   1      
- 229   1          return Byte;
- 230   1      }
- 231           
- 232          
- 233          
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  20 ERROR(S)
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    118    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

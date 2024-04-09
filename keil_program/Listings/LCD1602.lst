@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   LCD1602                                                           04/03/2024 08:53:56 PAGE 1   
+C51 COMPILER V9.60.7.0   LCD1602                                                           04/10/2024 01:39:04 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LCD1602
@@ -62,7 +62,7 @@ line level    source
   51          SC=1，RL=1时字符和光标都右移
   52          
   53          指令6：功能设置命令
-C51 COMPILER V9.60.7.0   LCD1602                                                           04/03/2024 08:53:56 PAGE 2   
+C51 COMPILER V9.60.7.0   LCD1602                                                           04/10/2024 01:39:04 PAGE 2   
 
   54          0    0    0    0    1    DL    N    F    X     X   40us
   55          DL：DL=1代表数据长度为8位，DL=0代表数据长度为4位
@@ -126,7 +126,7 @@ line level    source
  110          
  111          void LCD_WriteData(u8 dat)
  112          {
-C51 COMPILER V9.60.7.0   LCD1602                                                           04/03/2024 08:53:56 PAGE 3   
+C51 COMPILER V9.60.7.0   LCD1602                                                           04/10/2024 01:39:04 PAGE 3   
 
  113   1              LCD1602_RS = 1;  //选择写数据
  114   1              LCD1602_RW = 0; //选择写
@@ -190,7 +190,7 @@ line level    source
  172          
  173          /**
  174            * @brief  在LCD1602指定位置开始显示所给字符串
-C51 COMPILER V9.60.7.0   LCD1602                                                           04/03/2024 08:53:56 PAGE 4   
+C51 COMPILER V9.60.7.0   LCD1602                                                           04/10/2024 01:39:04 PAGE 4   
 
  175            * @param  Line 起始行位置，范围：1~2
  176            * @param  Column 起始列位置，范围：1~16
@@ -254,7 +254,7 @@ line level    source
  234          {
  235   1              unsigned char i;
  236   1              unsigned int Number1;
-C51 COMPILER V9.60.7.0   LCD1602                                                           04/03/2024 08:53:56 PAGE 5   
+C51 COMPILER V9.60.7.0   LCD1602                                                           04/10/2024 01:39:04 PAGE 5   
 
  237   1              LCD_SetCursor(Line,Column);
  238   1              if(Number>=0)
@@ -318,7 +318,7 @@ line level    source
  296   1      }
 
 
-C51 COMPILER V9.60.7.0   LCD1602                                                           04/03/2024 08:53:56 PAGE 6   
+C51 COMPILER V9.60.7.0   LCD1602                                                           04/10/2024 01:39:04 PAGE 6   
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    455    ----

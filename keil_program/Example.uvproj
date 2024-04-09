@@ -407,9 +407,14 @@
               <FilePath>.\Lib\src\IIC.c</FilePath>
             </File>
             <File>
-              <FileName>IIC.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Lib\inc\IIC.h</FilePath>
+              <FileName>UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\src\UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>TIMER.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\src\TIMER.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -440,11 +445,6 @@
               <FileName>24C02.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Lib\src\24C02.c</FilePath>
-            </File>
-            <File>
-              <FileName>24C02.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Lib\inc\24C02.h</FilePath>
             </File>
           </Files>
         </Group>

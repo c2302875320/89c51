@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   ADC0832                                                           04/03/2024 08:53:56 PAGE 1   
+C51 COMPILER V9.60.7.0   ADC0832                                                           04/10/2024 01:39:04 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE ADC0832
@@ -62,7 +62,7 @@ line level    source
   42          
   43          从第4个脉冲下降沿开始由DO端输出转换数据最高位Data7，
   44          随后每一个脉冲的下降沿DO端输出下一位数据。直到第11个脉冲时发出最低位数据
-C51 COMPILER V9.60.7.0   ADC0832                                                           04/03/2024 08:53:56 PAGE 2   
+C51 COMPILER V9.60.7.0   ADC0832                                                           04/10/2024 01:39:04 PAGE 2   
 
              -Data0，一个字节的数据输出完成。
   45          也正是从此位开始输出下一个相反字节的数据，即从第11个字节的下降沿输出Data0
@@ -116,7 +116,7 @@ line level    source
   91   1      
   92   1         for ( i = 0; i < 8; i++)
   93   1         {
-  94   2                        ADC0832_LSB = ADC0832_LSB|((u8)(ADC0832_DO_PIN)<<i);
+  94   2                ADC0832_LSB = ADC0832_LSB|((u8)(ADC0832_DO_PIN)<<i);
   95   2            ADC0832_CLK_PIN = 1;
   96   2            _nop_();_nop_();
   97   2            ADC0832_CLK_PIN = 0;
@@ -126,7 +126,7 @@ line level    source
  101   1         ADC0832_CS_PIN = 1;//取消片选
  102   1               return (ADC0832_MSB==ADC0832_LSB)?ADC0832_LSB:12;
  103   1      
-C51 COMPILER V9.60.7.0   ADC0832                                                           04/03/2024 08:53:56 PAGE 3   
+C51 COMPILER V9.60.7.0   ADC0832                                                           04/10/2024 01:39:04 PAGE 3   
 
  104   1      }
 

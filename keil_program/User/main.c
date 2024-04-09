@@ -22,33 +22,47 @@ void delay_ms(unsigned char ms)//设置毫秒级别延迟函数，ms最大输入
 
 
 
-//主函数
-int main(void){
-		
-		uchar adc = 0;
-		uint voltage = 0;
-		uchar LED_buffer1[16] = {""};//ADC显示缓冲
-		uchar LED_buffer2[16] = {""};//电压显示缓冲
-		LCD_Init();//1602初始化
-		
-		while(1)
-		{
-			adc = ADC0832_Read(0);//读取adc值
-//			voltage = adc * 500.0 / 255;//将adc值换算成电压
-			
-//			LED_buffer1[9] = adc / 100 + '0';		//取adc百位
-//			LED_buffer1[10] = adc % 100 / 10 + '0';	//取adc十位
-//			LED_buffer1[11] = adc % 10 + '0';		//取adc个位
-//	 
-//			LED_buffer2[9] = voltage / 100 + '0';		//取电压个位
-//			LED_buffer2[10] = '.';//小数点
-//			LED_buffer2[11] = voltage / 10 % 10 + '0';	//取电压十分位
-//			LED_buffer2[12] = voltage % 10 + '0';	//取电压百分位
-			
-			
-//			LCD_ShowString(1, 1, &LED_buffer1[0]);	//显示字符串
-			LCD_ShowNum(2, 1, ADC0832_Read(0),3);	//显示字符串
-		}
+//////主函数
+////int main(void){
+////		
+////		uchar adc = 0;
+////		uint voltage = 0;
+////		uchar LED_buffer1[16] = {""};//ADC显示缓冲
+////		uchar LED_buffer2[16] = {""};//电压显示缓冲
+////		LCD_Init();//1602初始化
+////		
+////		while(1)
+////		{
+////			adc = ADC0832_Read(0);//读取adc值
+//////			voltage = adc * 500.0 / 255;//将adc值换算成电压
+////			
+//////			LED_buffer1[9] = adc / 100 + '0';		//取adc百位
+//////			LED_buffer1[10] = adc % 100 / 10 + '0';	//取adc十位
+//////			LED_buffer1[11] = adc % 10 + '0';		//取adc个位
+//////	 
+//////			LED_buffer2[9] = voltage / 100 + '0';		//取电压个位
+//////			LED_buffer2[10] = '.';//小数点
+//////			LED_buffer2[11] = voltage / 10 % 10 + '0';	//取电压十分位
+//////			LED_buffer2[12] = voltage % 10 + '0';	//取电压百分位
+////			
+////			
+//////			LCD_ShowString(1, 1, &LED_buffer1[0]);	//显示字符串
+////			LCD_ShowNum(2, 1, ADC0832_Read(0),3);	//显示字符串
+////		}
 
-		return 0;
+////		return 0;
+////}
+
+//主函数
+void main(void)
+{
+    TIMER_Init(STC_TIMER0_MODE_1|STC_TIMER0_TIMER|STC_TIMER0_GATE_OFF,USE_TIMER0,1000);
+    delay_ms(100);
+    //TIMER_Init(STC_TIMER1_MODE_1|STC_TIMER1_TIMER|STC_TIMER1_GATE_OFF,USE_TIMER1,5000);
+    delay_ms(100);
+	TIMER2_Init(10000);//10000个机器周期，定时100MS
+	while (1)
+	{
+
+	}
 }

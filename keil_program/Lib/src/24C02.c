@@ -17,7 +17,7 @@ void IIC_Write(u8 IC_ADDR,u8 ADDR,u8 Byte)	 //写数据函数
     IIC_SendByte(ADDR);		//确定器件存储位地址
     IIC_ReceiveAck();
      
-    IIC_SendByte(num);		//写数据
+    IIC_SendByte(Byte);		//写数据
     IIC_ReceiveAck();
      
     IIC_Stop();
@@ -45,10 +45,10 @@ u8  IIC_Read(u8 IC_ADDR,u8 ADDR)
     IIC_ReceiveAck();
     
     IIC_Start();
-    IIC_SendByte(AT24C02_ADDRESS|0x01);
+    IIC_SendByte(IC_ADDR|0x01);
     
     IIC_ReceiveAck();	
-    Byte= I2C_ReceiveByte();
+    Byte= IIC_ReceiveByte();
     IIC_SendAck(1);
     
     IIC_Stop();
